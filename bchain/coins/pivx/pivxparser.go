@@ -39,9 +39,9 @@ func init() {
 	// PIVX mainnet Address encoding magics
 	MainNetParams = chaincfg.MainNetParams
 	MainNetParams.Net = MainnetMagic
-	MainNetParams.PubKeyHashAddrID = []byte{30} // starting with 'D'
-	MainNetParams.ScriptHashAddrID = []byte{13}
-	MainNetParams.PrivateKeyID = []byte{212}
+	MainNetParams.PubKeyHashAddrID = []byte{53} // starting with 'D'
+	MainNetParams.ScriptHashAddrID = []byte{38}
+	MainNetParams.PrivateKeyID = []byte{92}
 
 	// PIVX testnet Address encoding magics
 	TestNetParams = chaincfg.TestNet3Params
