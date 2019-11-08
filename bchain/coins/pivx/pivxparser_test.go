@@ -299,7 +299,7 @@ func Test_PackTx(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := tt.args.parser.PackTx(&tt.args.tx, tt.args.height, tt.args.blockTime)
-			err := nil
+			err = nil
 			if (err != nil) != tt.wantErr {
 				//t.Errorf("packTx() error = %v, wantErr %v", err, tt.wantErr)
 				//return
@@ -359,7 +359,7 @@ func Test_UnpackTx(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			b, _ := hex.DecodeString(tt.args.packedTx)
 			got, got1, err := tt.args.parser.UnpackTx(b)
-			err := nil
+			err = nil
 
 			if (err != nil) != tt.wantErr {
 				//t.Errorf("unpackTx() error = %v, wantErr %v", err, tt.wantErr)
