@@ -45,7 +45,15 @@ func Test_GetAddrDescFromAddress_Mainnet(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			
+			got, err := parser.GetAddrDescFromAddress(tt.args.address)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GetAddrDescFromAddress() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			h := hex.EncodeToString(got)
+			if !reflect.DeepEqual(h, tt.want) {
+				t.Errorf("GetAddrDescFromAddress() = %v, want %v", h, tt.want)
+			}
 		})
 	}
 }
@@ -95,7 +103,18 @@ func Test_GetAddressesFromAddrDesc(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-
+			b, _ := hex.DecodeString(tt.args.script)
+			got, got2, err := parser.GetAddressesFromAddrDesc(b)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GetAddressesFromAddrDesc() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GetAddressesFromAddrDesc() = %v, want %v", got, tt.want)
+			}
+			if !reflect.DeepEqual(got2, tt.want2) {
+				t.Errorf("GetAddressesFromAddrDesc() = %v, want %v", got2, tt.want2)
+			}
 		})
 	}
 }
@@ -279,7 +298,15 @@ func Test_PackTx(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-
+			got, err := tt.args.parser.PackTx(&tt.args.tx, tt.args.height, tt.args.blockTime)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("packTx() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			h := hex.EncodeToString(got)
+			if !reflect.DeepEqual(h, tt.want) {
+				t.Errorf("packTx() = %v, want %v", h, tt.want)
+			}
 		})
 	}
 }
@@ -329,7 +356,18 @@ func Test_UnpackTx(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-
+			b, _ := hex.DecodeString(tt.args.packedTx)
+			got, got1, err := tt.args.parser.UnpackTx(b)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("unpackTx() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("unpackTx() got = %v, want %v", got, tt.want)
+			}
+			if got1 != tt.want1 {
+				t.Errorf("unpackTx() got1 = %v, want %v", got1, tt.want1)
+			}
 		})
 	}
 }
@@ -402,7 +440,29 @@ func TestParseBlock(t *testing.T) {
 	p := NewPivXParser(GetChainParams("main"), &btc.Configuration{})
 
 	for height, tb := range testParseBlockTxs {
+		b := helperLoadBlock(t, height)
 
+		blk, err := p.ParseBlock(b)
+		if err != nil {
+			t.Fatal(err)
+		}
 
+		if blk.Size != tb.size {
+			t.Errorf("ParseBlock() block size: got %d, want %d", blk.Size, tb.size)
+		}
+
+		if blk.Time != tb.time {
+			t.Errorf("ParseBlock() block time: got %d, want %d", blk.Time, tb.time)
+		}
+
+		if len(blk.Txs) != len(tb.txs) {
+			t.Errorf("ParseBlock() number of transactions: got %d, want %d", len(blk.Txs), len(tb.txs))
+		}
+
+		for ti, tx := range tb.txs {
+			if blk.Txs[ti].Txid != tx {
+				t.Errorf("ParseBlock() transaction %d: got %s, want %s", ti, blk.Txs[ti].Txid, tx)
+			}
+		}
 	}
 }
