@@ -36,7 +36,7 @@ func Test_GetAddrDescFromAddress_Mainnet(t *testing.T) {
 	}{
 		{
 			name:    "P2PKH1",
-			args:    args{address: "DRM8TaiY38qcHbgdytp8oETreobBLHtpeE"},
+			args:    args{address: "Ng8175aANHVm6ZtdYYUTx7ix8QWsk1Wtda"},
 			want:    "76a914dda91c0396050d660f9c0e38f78064486bbfcb2c88ac",
 			wantErr: false,
 		},
@@ -72,14 +72,14 @@ func Test_GetAddressesFromAddrDesc(t *testing.T) {
 		{
 			name:    "P2PKH1",
 			args:    args{script: "76a914dda91c0396050d660f9c0e38f78064486bbfcb2c88ac"},
-			want:    []string{"DRM8TaiY38qcHbgdytp8oETreobBLHtpeE"},
+			want:    []string{"Ng8175aANHVm6ZtdYYUTx7ix8QWsk1Wtda"},
 			want2:   true,
 			wantErr: false,
 		},
 		{
 			name:    "pubkey",
 			args:    args{script: "210251c5555ff3c684aebfca92f5329e2f660da54856299da067060a1bcf5e8fae73ac"},
-			want:    []string{"DKL3QzCbJqrHpRKAHvEqsomsDhkQPvVzZg"},
+			want:    []string{"Na6v4V4DdzWSdPX9rZuB2h2xhJg6mcT4Kh"},
 			want2:   false,
 			wantErr: false,
 		},
@@ -162,7 +162,7 @@ func init() {
 				ScriptPubKey: bchain.ScriptPubKey{
 					Hex: "210251c5555ff3c684aebfca92f5329e2f660da54856299da067060a1bcf5e8fae73ac",
 					Addresses: []string{
-						"DKL3QzCbJqrHpRKAHvEqsomsDhkQPvVzZg",
+						"Na6v4V4DdzWSdPX9rZuB2h2xhJg6mcT4Kh",
 					},
 				},
 			},
@@ -209,7 +209,7 @@ func init() {
 				ScriptPubKey: bchain.ScriptPubKey{
 					Hex: "76a914dda91c0396050d660f9c0e38f78064486bbfcb2c88ac",
 					Addresses: []string{
-						"DRM8TaiY38qcHbgdytp8oETreobBLHtpeE",
+						"Ng8175aANHVm6ZtdYYUTx7ix8QWsk1Wtda",
 					},
 				},
 			},
